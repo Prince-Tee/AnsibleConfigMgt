@@ -455,6 +455,39 @@ In common.yml playbook you created in vscode you will write configuration for re
    ```
 
    ![*(Screenshot)* ](https://github.com/Prince-Tee/AnsibleConfigMgt/blob/main/screenshot%20from%20my%20local%20env/run%20the%20final%20commandncommand.PNG)  
+If you encounter the below error
+
+It means Ansible is trying to manage a server that uses apt (Ubuntu/Debian package manager) with a task configured for yum (typically used by RHEL/CentOS systems). Since your playbook likely includes a package installation task for wireshark or similar, 
+and it’s incorrectly assuming yum instead of apt. so change the content of your dev.ini file to the below to allow the download of the package
+
+```bash
+---
+- name: update web, nfs, and db servers
+  hosts: webservers, nfs, db
+  become: yes
+  tasks:
+    - name: ensure wireshark is at the latest version on RHEL/CentOS servers
+      yum:
+        name: wireshark
+        state: latest
+      when: ansible_facts['pkg_mgr'] == "yum"
+
+- name: update LB server
+  hosts: lb
+  become: yes
+  tasks:
+    - name: Update apt repository
+      apt: 
+        update_cache: yes
+      when: ansible_facts['pkg_mgr'] == "apt"
+
+    - name: ensure wireshark is at the latest version on Ubuntu/Debian servers
+      apt:
+        name: wireshark
+        state: latest
+      when: ansible_facts['pkg_mgr'] == "apt"
+```
+After that run the palybook again.
 
 4. **Verify Installation**  
    You can confirm Wireshark installation on each server by running:
