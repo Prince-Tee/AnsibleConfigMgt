@@ -458,7 +458,7 @@ In common.yml playbook you created in vscode you will write configuration for re
 
 
 If you encounter the below error
-![Screenshot](https://github.com/Prince-Tee/AnsibleConfigMgt/blob/main/screenshot%20from%20my%20local%20env/ansible%20error.PNG)
+![Screenshot](https://github.com/Prince-Tee/AnsibleConfigMgt/blob/main/screenshot%20from%20my%20local%20env/error%20encoutered.PNG)
 
 It means Ansible is trying to manage a server that uses apt (Ubuntu/Debian package manager) with a task configured for yum (typically used by RHEL/CentOS systems). Since your playbook likely includes a package installation task for wireshark or similar, 
 and it’s incorrectly assuming yum instead of apt. so change the content of your dev.ini file to the below to allow the download of the package
