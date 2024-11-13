@@ -455,7 +455,10 @@ In common.yml playbook you created in vscode you will write configuration for re
    ```
 
    ![*(Screenshot)* ](https://github.com/Prince-Tee/AnsibleConfigMgt/blob/main/screenshot%20from%20my%20local%20env/run%20the%20final%20commandncommand.PNG)  
+
+
 If you encounter the below error
+![Screenshot](https://github.com/Prince-Tee/AnsibleConfigMgt/blob/main/screenshot%20from%20my%20local%20env/ansible%20error.PNG)
 
 It means Ansible is trying to manage a server that uses apt (Ubuntu/Debian package manager) with a task configured for yum (typically used by RHEL/CentOS systems). Since your playbook likely includes a package installation task for wireshark or similar, 
 and it’s incorrectly assuming yum instead of apt. so change the content of your dev.ini file to the below to allow the download of the package
@@ -487,7 +490,9 @@ and it’s incorrectly assuming yum instead of apt. so change the content of you
         state: latest
       when: ansible_facts['pkg_mgr'] == "apt"
 ```
-After that run the palybook again.
+After that run the playbook again.
+
+![sceenshot](https://github.com/Prince-Tee/AnsibleConfigMgt/blob/main/screenshot%20from%20my%20local%20env/run%20your%20playbook.PNG)
 
 4. **Verify Installation**  
    You can confirm Wireshark installation on each server by running:
@@ -498,6 +503,8 @@ After that run the palybook again.
    ```bash
    wireshark --version
    ```
+
+   ![screenshot](https://github.com/Prince-Tee/AnsibleConfigMgt/blob/main/screenshot%20from%20my%20local%20env/wireshark%20on%20each%20servers.PNG)
 
  **Conclusion**
  In this Ansible configuration management setup, we successfully automated the process of managing infrastructure through Jenkins and GitHub. The steps covered include setting up Ansible on the Jenkins EC2 instance, configuring Jenkins for automated builds and artifact archiving, and establishing a GitHub webhook to trigger builds upon code updates. The structured approach includes setting up a branch and directory organization within GitHub, creating a robust Ansible inventory, and configuring SSH for secure server access. Overall, this setup enables streamlined configuration management and efficient infrastructure provisioning, making it a practical foundation for further automation. 
